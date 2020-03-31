@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://githubgavin.github.io</id>
     <title>浮世Talk</title>
-    <updated>2020-03-31T09:09:49.496Z</updated>
+    <updated>2020-03-31T09:14:43.381Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://githubgavin.github.io"/>
     <link rel="self" href="https://githubgavin.github.io/atom.xml"/>
@@ -11,16 +11,23 @@
     <icon>https://githubgavin.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 浮世Talk</rights>
     <entry>
+        <title type="html"><![CDATA[Win10启用内置Linux子系统（上）]]></title>
+        <id>https://githubgavin.github.io/win10-qi-yong-nei-zhi-linux-zi-xi-tong-shang/</id>
+        <link href="https://githubgavin.github.io/win10-qi-yong-nei-zhi-linux-zi-xi-tong-shang/">
+        </link>
+        <updated>2020-03-31T09:11:36.000Z</updated>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Kafka Connect入门]]></title>
-        <id>https://githubgavin.github.io/post/kafka-connect/</id>
-        <link href="https://githubgavin.github.io/post/kafka-connect/">
+        <id>https://githubgavin.github.io/kafka-connect/</id>
+        <link href="https://githubgavin.github.io/kafka-connect/">
         </link>
         <updated>2020-03-31T05:04:58.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://githubgavin.github.io/post/hello-gridea/</id>
-        <link href="https://githubgavin.github.io/post/hello-gridea/">
+        <id>https://githubgavin.github.io/hello-gridea/</id>
+        <link href="https://githubgavin.github.io/hello-gridea/">
         </link>
         <updated>2018-12-11T16:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
