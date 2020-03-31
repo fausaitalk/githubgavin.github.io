@@ -35,7 +35,9 @@
 
 <body class="post-template-default single single-post postid-70 single-format-standard">
 	<div id="wrapper">
-				<header id="header" class="site-header" >
+				<header id="header" class="site-header" 
+			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://githubgavin.github.io/post-images/win10-qi-yong-nei-zhi-linux-zi-xi-tong-shang.png)"
+			>
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
@@ -109,7 +111,7 @@
 				
 				
 			</div>
-			<form id="gridea-search-form" data-update="1585647643125" action="/search/index.html">
+			<form id="gridea-search-form" data-update="1585649428981" action="/search/index.html">
 				<div class="search-box">
 					<input class="search-txt" name="q" placeholder="Type to search" />
 					<a class="search-btn">
@@ -149,25 +151,66 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<p>几年前，那会我还在用着崭新的Win7专业版操作系统，但是由于需要学习Linux，因此不得不找了网上的教程：首先下载破解版vmware按照，接着到Ubuntu官网下载镜像文件，然后在安装好的vmware虚拟机中选择镜像文件进行一步一步安装。</p>
-<p>但是现在都已经9102年了，对于习惯了开箱即用，用完即走的年轻人来说，这样繁琐的安装过程，显然是乏味的。更何况对于一个Linux初学者来说，他最迫切的需求就是想尽快的感受一下强大的Linux命令行，能像个“黑客”一样坐在电脑前对着黑窗口飞速的敲打键盘...</p>
-<p>很幸运，积极拥抱开源世界的微软已经在新版的win10操作系统中内置了Linux（Windows Subsystem for Linux，简称WSL），也就是说，如果你现在电脑用的是新版win10操作系统，你现在就可以快速的体验一下Linux，而不用安装虚拟机等一系列繁琐的步骤。</p>
-<p>下面我就带大家一步步启用win10的内置Linux。</p>
+								<h2 id="前言">前言</h2>
+<pre><code>几年前，那会我还在用着崭新的Win7专业版操作系统，但是由于需要学习Linux，因此不得不找了网上的教程：首先下载破解版vmware按照，接着到Ubuntu官网下载镜像文件，然后在安装好的vmware虚拟机中选择镜像文件进行一步一步安装。
+
+但是现在都已经9102年了，对于习惯了开箱即用，用完即走的年轻人来说，这样繁琐的安装过程，显然是乏味的。更何况对于一个Linux初学者来说，他最迫切的需求就是想尽快的感受一下强大的Linux命令行，能像个“黑客”一样坐在电脑前对着黑窗口飞速的敲打键盘...
+
+很幸运，积极拥抱开源世界的微软已经在新版的win10操作系统中内置了Linux（Windows Subsystem for Linux，简称WSL），也就是说，如果你现在电脑用的是新版win10操作系统，你现在就可以快速的体验一下Linux，而不用安装虚拟机等一系列繁琐的步骤。
+
+下面我就带大家一步步启用win10的内置Linux。
+</code></pre>
+<ul>
+<li>
 <p>首先，在启用或关闭Windows功能中把适用于Linux的Windows子系统选项勾上，步骤如下：</p>
+</li>
+<li>
 <p>在设置里搜索控制面板:</p>
-<p>调整控制面板查看方式为类别，点击程序：</p>
-<p>点击启用或关闭Windows功能选项：</p>
-<p>在弹出的窗口里找到适用于Linux的Windows子系统选项勾上，然后点击确定按钮，然后重启电脑：</p>
-<p>然后，在Microsoft Store中搜索Linux，选择Ubuntu18.04  LTS，点击获取，然后就像手机安装APP一样自动安装：</p>
-<p>安装过程中会有一个命令行窗口弹出，如果没有安装失败，该命令行窗口会显示需要给新装的Ubuntu创建一个用户名（该用户名不是root用户），输入你需要起的用户名即可：</p>
-<p>紧接着，为你刚刚新建的用户创建密码和确认密码：</p>
-<p>至此，你已经在你的win10中安装启动了Ubuntu操作系统，你可以点击开始找到它，也可以固定在任务栏以便快速找到：</p>
-<p>然后，你要的命令行黑窗口来了：</p>
-<p>总的来说，启用win10中内置的Linux就三个步骤：<br>
-勾选适用于Linux的Windows子系统选项；<br>
-在Microsoft Store中获取ubuntu安装；<br>
-新建用户账号密码。<br>
-这确实比在虚拟机中安装方便得多，轻量得多，也优雅得多，强烈建议初学者尝试用这种方式学习Linux。</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://githubgavin.github.io/post-images/1585647807423.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>调整控制面板查看方式为类别，点击程序：</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://githubgavin.github.io/post-images/1585647834826.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>点击启用或关闭Windows功能选项：</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://githubgavin.github.io/post-images/1585647844918.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>在弹出的窗口里找到适用于Linux的Windows子系统选项勾上，然后点击确定按钮，然后重启电脑：</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://githubgavin.github.io/post-images/1585647858058.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>然后，在Microsoft Store中搜索Linux，选择Ubuntu18.04  LTS，点击获取，然后就像手机安装APP一样自动安装：</li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://githubgavin.github.io/post-images/1585647866236.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>安装过程中会有一个命令行窗口弹出，如果没有安装失败，该命令行窗口会显示需要给新装的Ubuntu创建一个用户名（该用户名不是root用户），输入你需要起的用户名即可：</li>
+</ul>
+<figure data-type="image" tabindex="6"><img src="https://githubgavin.github.io/post-images/1585647879983.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>紧接着，为你刚刚新建的用户创建密码和确认密码：</li>
+</ul>
+<figure data-type="image" tabindex="7"><img src="https://githubgavin.github.io/post-images/1585647888261.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>至此，你已经在你的win10中安装启动了Ubuntu操作系统，你可以点击开始找到它，也可以固定在任务栏以便快速找到：</li>
+</ul>
+<figure data-type="image" tabindex="8"><img src="https://githubgavin.github.io/post-images/1585647896112.jpg" alt="" loading="lazy"></figure>
+<ul>
+<li>然后，你要的命令行黑窗口来了：<br>
+<img src="https://githubgavin.github.io/post-images/1585647902240.jpg" alt="" loading="lazy"></li>
+</ul>
+<figure data-type="image" tabindex="9"><img src="https://githubgavin.github.io/post-images/1585647908876.jpg" alt="" loading="lazy"></figure>
+<h2 id="后记">后记</h2>
+<pre><code>总的来说，启用win10中内置的Linux就三个步骤：
+勾选适用于Linux的Windows子系统选项；
+在Microsoft Store中获取ubuntu安装；
+新建用户账号密码。
+这确实比在虚拟机中安装方便得多，轻量得多，也优雅得多，强烈建议初学者尝试用这种方式学习Linux。
+</code></pre>
+<hr>
+<figure data-type="image" tabindex="10"><img src="https://githubgavin.github.io/post-images/1585648485894.gif" alt="" loading="lazy"></figure>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
