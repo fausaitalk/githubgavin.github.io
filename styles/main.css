@@ -143,7 +143,7 @@ body {
   background-color: #fff;
 }
 a {
-  color: #337ab7;
+  color: #008000;
   text-decoration: none;
 }
 a:focus,
@@ -661,7 +661,7 @@ pre code {
 .nav .open > a:focus,
 .nav .open > a:hover {
   background-color: #eee;
-  border-color: #337ab7;
+  border-color: #008000;
 }
 .nav .nav-divider {
   height: 1px;
@@ -754,7 +754,7 @@ pre code {
 .nav-pills > li.active > a:focus,
 .nav-pills > li.active > a:hover {
   color: #fff;
-  background-color: #337ab7;
+  background-color: #008000;
 }
 .nav-stacked > li {
   float: none;
@@ -1440,7 +1440,7 @@ h5:before {
   top: 0;
   left: -20px;
   content: '#';
-  color: #337AB7;
+  color: #008000;
   font-size: 1.2em;
   line-height: 1.2em;
 }
@@ -1459,7 +1459,7 @@ img {
   background: rgba(255, 255, 255, 0.92);
 }
 a {
-  color: #EA4C89;
+  color: #5B7AFA;
   text-decoration: none;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -1469,7 +1469,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #337AB7;
+  color: #008000;
   outline: none;
   text-decoration: none;
 }
@@ -1517,7 +1517,7 @@ header {
   font-size: 20px;
   margin: 0px;
   padding-top: 0px;
-  border-left: 4px solid #EA4C89;
+  border-left: 4px solid #5B7AFA;
   margin-left: auto;
   margin-right: auto;
   width: fit-content;
@@ -1559,7 +1559,7 @@ header {
 }
 #nav-wrapper .dove .current-menu-item > a,
 #nav-wrapper .dove a:hover {
-  color: #EA4C89;
+  color: #5B7AFA;
 }
 #nav-wrapper .menu-item-has-children {
   position: relative;
@@ -1611,7 +1611,7 @@ header {
   transform: translateY(-50%);
 }
 #nav-wrapper .sub-menu a:hover {
-  color: #337AB7;
+  color: #008000;
 }
 .xiaosong {
   padding: 0;
@@ -1633,7 +1633,7 @@ header {
   border-radius: 3px;
 }
 #nav-wrapper .xiaosong a:hover {
-  color: #337AB7;
+  color: #008000;
 }
 .jingge a {
   color: #fff;
@@ -1641,7 +1641,7 @@ header {
   margin: 4px 8px;
 }
 .jingge a:hover {
-  color: #EA4C89;
+  color: #5B7AFA;
 }
 table {
   width: 100%;
@@ -1721,14 +1721,14 @@ article .entry-title > a,
   transition-duration: 0.2s;
   transition-timing-function: ease-in-out;
   transition-delay: 0s;
-  background-color: #EA4C89;
+  background-color: #5B7AFA;
 }
 .hentry h1 a:hover::before {
   opacity: 1;
   visibility: visible;
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
-  background-color: #337AB7;
+  background-color: #008000;
 }
 #content article .entry-summary {
   color: #373737;
@@ -1786,7 +1786,7 @@ article .entry-title > a,
   text-transform: uppercase;
 }
 #content article .link-more:hover {
-  color: #337AB7;
+  color: #008000;
 }
 @-webkit-keyframes load {
   0%,
@@ -1865,7 +1865,7 @@ article .entry-title > a,
   position: relative;
 }
 .nav-links3 a:hover {
-  color: #EA4C89;
+  color: #5B7AFA;
 }
 .nav-previous3 {
   float: left;
@@ -1986,7 +1986,7 @@ article .entry-title > a,
   padding: 0 15px;
 }
 .nav-links a:hover {
-  color: #337AB7;
+  color: #008000;
 }
 #archives #archives-tags {
   margin-top: 3.75rem;
@@ -2375,7 +2375,7 @@ ul.links li:hover .bg {
     padding: 0 15px;
   }
   .nav-toggle {
-    background-color: #337AB7;
+    background-color: #008000;
     border-radius: 99px;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
     display: block;
@@ -2720,7 +2720,7 @@ ul.links li:hover .bg {
   text-transform: uppercase;
 }
 .valine .vlist .vcard .vcomment-body .vat:hover {
-  color: #337AB7 !important;
+  color: #008000 !important;
 }
 .valine .vinputs-area .textarea-wrapper .comment_trigger {
   background-color: #FFFFFF;
@@ -2755,7 +2755,7 @@ ul.links li:hover .bg {
   background: white;
 }
 .search-btn {
-  color: #EA4C89;
+  color: #5B7AFA;
   float: right;
   width: 30px;
   height: 30px;
@@ -2802,7 +2802,7 @@ blockquote:before {
   left: 15px;
   content: "\e63c";
   font-family: "iconfont" !important;
-  color: #EA4C89;
+  color: #5B7AFA;
   font-size: 30px;
   line-height: 1;
 }
@@ -2812,7 +2812,7 @@ blockquote {
   box-sizing: border-box;
   background: #f5f5f5;
   color: #777777;
-  border-left: 4px solid #EA4C89;
+  border-left: 4px solid #5B7AFA;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.14);
 }
 blockquote p {
@@ -2832,7 +2832,7 @@ blockquote cite {
     color: #bcbcbc;
   }
   h1.entry-title a:hover {
-    color: #337AB7;
+    color: #008000;
   }
   article .entry-title > a,
   .slide-content .entry-title > a {
@@ -2877,7 +2877,7 @@ blockquote cite {
     font-style: italic;
     background: #333;
     color: #bcbcbc;
-    border-left: 4px solid #EA4C89;
+    border-left: 4px solid #5B7AFA;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
   }
   ul.links li a {
@@ -3109,7 +3109,7 @@ blockquote cite {
     text-transform: uppercase;
   }
   .valine .vlist .vcard .vcomment-body .vat:hover {
-    color: #337AB7 !important;
+    color: #008000 !important;
   }
   .valine .vinputs-area .textarea-wrapper .comment_trigger {
     background-color: #333;
@@ -3140,7 +3140,7 @@ blockquote cite {
     background: #333;
   }
   .v a {
-    color: #EA4C89;
+    color: #5B7AFA;
   }
   .info .power a {
     color: white;
@@ -3341,6 +3341,6 @@ blockquote cite {
   }
 }
 
-    header {background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(/images/bg.png);}
+    header {background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(http://up.36992.com/pic/c8/30/c2/c830c28c806a4f37fd08f39c2240644f.jpg);}
     
     
