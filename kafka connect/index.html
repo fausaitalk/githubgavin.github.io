@@ -109,7 +109,7 @@
 				
 				
 			</div>
-			<form id="gridea-search-form" data-update="1585631422058" action="/search/index.html">
+			<form id="gridea-search-form" data-update="1585631591659" action="/search/index.html">
 				<div class="search-box">
 					<input class="search-txt" name="q" placeholder="Type to search" />
 					<a class="search-btn">
@@ -149,9 +149,9 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<p><strong>Kafka Connect简介</strong></p>
+								<p>##Kafka Connect简介</p>
 <p>Kafka Connect是一个可以在Apache Kafka和其他系统之间进行可伸缩和可靠地传输数据的工具。它使得快速定义将大量数据移入和移出Kafka的Connector变得很简单。Kafka Connect可以摄取整个数据库或将来自所有应用服务器的指标收集到Kafka的topic中，从而使数据能够以低延迟进行流处理。导出作业可以将数据从Kafka topic传递到辅助存储和查询系统，或者传递到批处理系统进行离线分析。</p>
-<p><strong>Kafka Connect功能</strong></p>
+<p>##Kafka Connect功能</p>
 <ul>
 <li>Kafka连接器的通用框架：Kafka Connect标准化了其他数据系统与Kafka的集成，简化了连接器的开发、部署和管理</li>
 <li>单机模式和分布式模式：Kafka Connect启动模式有两种，Standalone（单机模式）和Distribute（分布式模式）。 单机主要用来开发和测试，分布式的用于生产环境。</li>
@@ -160,10 +160,12 @@
 <li>分布式和易于伸缩：Kafka Connect建立在现有的组管理协议上。可以添加更多的worker来扩展Kafka连接集群。</li>
 <li>流/批处理集成：利用Kafka现有的功能，Kafka Connect是连接流和批处理数据系统的理想解决方案。</li>
 </ul>
-<p><strong>运行Kafka Connect自带Demo</strong></p>
+<p>##运行Kafka Connect自带Demo</p>
 <p><em>前置条件：zookeeper集群和Kafka集群安装启动正常</em></p>
 <p>当你把Kafka集群安装成功后，Kafka Connect也安装好了。由上文可知，Kafka Connect启动方式分为单机模式和分布式模式，现在我们利用Kafka自带Connector分别对这两种模式进行测试。</p>
-<p><strong>单机模式</strong>：</p>
+<ul>
+<li>单机模式：</li>
+</ul>
 <p>官网给出的单机模式启动命令：</p>
 <pre><code class="language-bash">bin/Connect-standalone.sh config/connect-standalone.properties connector1.properties [connector2.properties ...]
 </code></pre>
@@ -201,7 +203,9 @@ topics=connect-test
 <pre><code class="language-shell">bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
 </code></pre>
 <p>说明：以上启动两个Connector，其中local-file-source读取/data/connect-test/source.txt的内容，同步到名为connect-test的topic中；local-file-sink读取connect-test的数据写进/data/connect-test/sink.txt文件中。打开source.txt文件往里面实时写数据，保存，sink.txt中能实时的得到数据，从而实现数据在不同文件之间的同步。</p>
-<p><strong>分布式模式</strong></p>
+<ul>
+<li>分布式模式</li>
+</ul>
 <p>官网给出的分布式模式启动命令：</p>
 <pre><code class="language-shell">bin/connect-distributed.sh config/connect-distributed.properties
 </code></pre>
