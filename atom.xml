@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://fausai.life</id>
     <title>浮世Talk</title>
-    <updated>2020-03-31T13:55:51.784Z</updated>
+    <updated>2020-03-31T14:43:53.085Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fausai.life"/>
     <link rel="self" href="https://fausai.life/atom.xml"/>
-    <subtitle>逍遥浮世，与道俱成。人来人往，与君共勉。</subtitle>
+    <subtitle>逍遙浮世，與道俱成。人來人往，與君共勉。</subtitle>
     <logo>https://fausai.life/images/avatar.png</logo>
     <icon>https://fausai.life/favicon.ico</icon>
     <rights>All rights reserved 2020, 浮世Talk</rights>
