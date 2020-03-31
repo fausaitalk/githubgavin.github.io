@@ -8,14 +8,14 @@
 <meta HTTP-EQUIV="expires" CONTENT="0">
 <title>Win10启用内置Linux子系统（下） | 浮世Talk</title>
 
-<link rel="stylesheet" href="http://fausai.life/styles/main.css">
+<link rel="stylesheet" href="https://fausai.life/styles/main.css">
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
 <link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <!-- 下面是我自己的iconfont -->
 <link href="https://at.alicdn.com/t/font_1651848_9ur7s2zwgll.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<script type='text/javascript' src='http://fausai.life/media/scripts/script.js'></script>
+<script type='text/javascript' src='https://fausai.life/media/scripts/script.js'></script>
 <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
@@ -36,12 +36,12 @@
 <body class="post-template-default single single-post postid-70 single-format-standard">
 	<div id="wrapper">
 				<header id="header" class="site-header" 
-			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(http://fausai.life/post-images/kafka-connect-2.png)"
+			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://fausai.life/post-images/kafka-connect-2.png)"
 			>
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
-						<a href="http://fausai.life" rel="home">Win10启用内置Linux子系统（下）</a>
+						<a href="https://fausai.life" rel="home">Win10启用内置Linux子系统（下）</a>
 					</div>
 				</h1>
 				<h2 class="site-description">逍遥浮世，与道俱成。人来人往，与君共勉。</h2>
@@ -111,7 +111,7 @@
 				
 				
 			</div>
-			<form id="gridea-search-form" data-update="1585662651483" action="/search/index.html">
+			<form id="gridea-search-form" data-update="1585662946904" action="/search/index.html">
 				<div class="search-box">
 					<input class="search-txt" name="q" placeholder="Type to search" />
 					<a class="search-btn">
@@ -167,7 +167,7 @@ root@ZCG04000023:~#
 <p>2，重启wsl</p>
 <p>从Windows Subsystem for Linux这个名字我们就可以看出，wsl作为Windows操作系统下的应用级别程序，并没有把systemd纳入进来，因此我们无法用reboot命令进行系统重启。如果在Linux子系统下更改了某些配置需要重启才能生效的，该如何处理呢？难道要重启电脑吗？当然不用，可以到Windows服务中通过重启Lxssmanager实现wsl的重启，步骤如下：<br>
 按Win键 + R，在弹出的框中输入services.msc，按Enter键即可弹出Windows服务窗口，找到Lxssmanager，右键，选择“重新启动”即可。</p>
-<figure data-type="image" tabindex="1"><img src="http://fausai.life/post-images/1585650257988.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="1"><img src="https://fausai.life/post-images/1585650257988.jpg" alt="" loading="lazy"></figure>
 <p>3，将挂载在mnt目录下的磁盘修改成挂载在根目录</p>
 <p>mnt为mount（可翻译为“挂载”）的简写，mnt作为Linux系统的一个目录，是系统管理员临时挂载文件系统的安装点，程序并不自动支持安装到/mnt目录下。当你在命令行中敲下df -h时你会看到类似如下内容：</p>
 <pre><code class="language-bash">gavin@ZCG04000023:~$ df -h
@@ -199,7 +199,7 @@ C:               84G   58G   27G  69% /c
 D:              141G   63G   78G  45% /d
 </code></pre>
 <p>PS:以上步骤中涉及到的vim的语法如果不熟悉，建议到到网上找vim相关文章参考，以下是vim 键盘图 。<br>
-<img src="http://fausai.life/post-images/1585650244142.jpg" alt="" loading="lazy"><br>
+<img src="https://fausai.life/post-images/1585650244142.jpg" alt="" loading="lazy"><br>
 图片来自Linux vi/vim | 菜鸟教程</p>
 <p>4，使用secureCRT/Xshell客户端登录wsl</p>
 <p>当你在Windows中启用wsl成功后，系统会有一个Linux shell终端可以让你连上wsl进行命令操作，一般说来，这个Linux shell是能work（堪用）的，但是对于品味挑剔的你来说，自带的Linux shell功能还是不够强大：不能在一个窗口打开多个tab页，不能设置多个连接记录，不能设置快捷键，更没有你喜欢的花俏的皮肤和背景...这些理由，足以让你果断摈弃Linux shell，迫不及待的把secureCRT、Xshell装上。接下来就是示范如何使用secureCRT客户端登录wsl。<br>
@@ -225,11 +225,11 @@ gavin@ZCG04000023:~$
 gavin@ZCG04000023:~$
 </code></pre>
 <p>现在可以用secureCRT登录wsl了，首先得把secureCRT安装好，文末有软件共享地址。启动secureCRT，按照下图步骤配置：</p>
-<p><img src="http://fausai.life/post-images/1585650276120.jpg" alt="" loading="lazy"><br>
+<p><img src="https://fausai.life/post-images/1585650276120.jpg" alt="" loading="lazy"><br>
 在弹出的框中填写密码，建议把Save password选项勾上，点击ok</p>
-<figure data-type="image" tabindex="2"><img src="http://fausai.life/post-images/1585650283651.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://fausai.life/post-images/1585650283651.jpg" alt="" loading="lazy"></figure>
 <p>连接成功后如下图所示：</p>
-<figure data-type="image" tabindex="3"><img src="http://fausai.life/post-images/1585650291714.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://fausai.life/post-images/1585650291714.jpg" alt="" loading="lazy"></figure>
 <p>PS：目前ssh服务是wsl启动后通过service ssh start手动启动的，对于如何设置ssh服务开机启动，可以参考文末GitHub地址。</p>
 <pre><code class="language-bash">secureCRT下载： 
 https://pan.baidu.com/s/1rw_xm6uNhfRLNiUlChqt8Q 提取码：tw7z  
@@ -237,16 +237,16 @@ wsl-autostart地址：
 https://github.com/troytse/wsl-autostart
 </code></pre>
 <hr>
-<figure data-type="image" tabindex="4"><img src="http://fausai.life/post-images/1585650079974.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://fausai.life/post-images/1585650079974.gif" alt="" loading="lazy"></figure>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
 								
-								<a href="http://fausai.life/windows/" rel="tag">windows</a>
+								<a href="https://fausai.life/windows/" rel="tag">windows</a>
 								
-								<a href="http://fausai.life/Linux/" rel="tag">Linux</a>
+								<a href="https://fausai.life/Linux/" rel="tag">Linux</a>
 								
-								<a href="http://fausai.life/WSL/" rel="tag">WSL</a>
+								<a href="https://fausai.life/WSL/" rel="tag">WSL</a>
 								
 							</div>
 							<nav class="navigation3 post-navigation3" role="navigation">
@@ -254,14 +254,14 @@ https://github.com/troytse/wsl-autostart
 								<div class="nav-links3">
 									
 									
-									<div class="wow zoomIn nav-next3"><a href="http://fausai.life/win10-qi-yong-nei-zhi-linux-zi-xi-tong-shang/"
+									<div class="wow zoomIn nav-next3"><a href="https://fausai.life/win10-qi-yong-nei-zhi-linux-zi-xi-tong-shang/"
 											rel="next"> Win10启用内置Linux子系统（上）</a></div>
 									
 								</div>
 							</nav>
 							<div class="wow zoomIn author-info" style="visibility: visible; animation-name: zoomIn;">
 								<div class="author-avatar pull-left"><img
-										src="http://fausai.life/images/avatar.png"></div>
+										src="https://fausai.life/images/avatar.png"></div>
 								
 								<div class="author-description">
 									<div class="author-title">
@@ -280,7 +280,7 @@ https://github.com/troytse/wsl-autostart
 
 						
 						<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='http://fausai.life/media/scripts/Valine.min.js'></script>
+<script src='https://fausai.life/media/scripts/Valine.min.js'></script>
 <!-- <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script> -->
 
 
