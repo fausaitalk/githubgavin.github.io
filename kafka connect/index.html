@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <meta HTTP-EQUIV="expires" CONTENT="0">
-<title>关于 | 浮世Talk</title>
+<title>Kafka Connect入门 | 浮世Talk</title>
 
 <link rel="stylesheet" href="https://githubgavin.github.io/styles/main.css">
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
@@ -27,11 +27,13 @@
 
 <body class="post-template-default single single-post postid-70 single-format-standard">
 	<div id="wrapper">
-				<header id="header" class="site-header" >
+				<header id="header" class="site-header" 
+			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://githubgavin.github.io/post-images/kafka connect.jpg)"
+			>
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
-						<a href="https://githubgavin.github.io" rel="home">关于</a>
+						<a href="https://githubgavin.github.io" rel="home">Kafka Connect入门</a>
 					</div>
 				</h1>
 				<h2 class="site-description">逍遥浮世，与道俱成。人来人往，与君共勉。</h2>
@@ -125,13 +127,13 @@
 							<div class="entry-meta">
 								<div class="entry-info">
 									<time>
-										2019-01-25
+										2020-03-31
 									</time>
 									<span>
-										1 min read
+										9 min read
 									</span>
 									<!-- id 将作为查询条件 -->
-									<span id="/about/" class="leancloud_visitors"  data-flag-title="关于">
+									<span id="/kafka connect/" class="leancloud_visitors"  data-flag-title="Kafka Connect入门">
 										<span class="leancloud-visitors-count"></span>次阅读
 									</span>
 									<span class="isTop">
@@ -147,13 +149,131 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+								<p><strong>Kafka Connect简介</strong></p>
+<p>Kafka Connect是一个可以在Apache Kafka和其他系统之间进行可伸缩和可靠地传输数据的工具。它使得快速定义将大量数据移入和移出Kafka的Connector变得很简单。Kafka Connect可以摄取整个数据库或将来自所有应用服务器的指标收集到Kafka的topic中，从而使数据能够以低延迟进行流处理。导出作业可以将数据从Kafka topic传递到辅助存储和查询系统，或者传递到批处理系统进行离线分析。</p>
+<p><strong>Kafka Connect功能</strong></p>
+<ul>
+<li>Kafka连接器的通用框架：Kafka Connect标准化了其他数据系统与Kafka的集成，简化了连接器的开发、部署和管理</li>
+<li>单机模式和分布式模式：Kafka Connect启动模式有两种，Standalone（单机模式）和Distribute（分布式模式）。 单机主要用来开发和测试，分布式的用于生产环境。</li>
+<li>REST接口：通过一个易于使用的REST API提交和管理到Kafka Connect集群的连接器。</li>
+<li>自动偏移管理：只需要很简单的配置 ，Kafka Connect就可以自动管理偏移提交过程，这样连接器开发人员就不必担心连接器开发中的这个容易出错的部分。</li>
+<li>分布式和易于伸缩：Kafka Connect建立在现有的组管理协议上。可以添加更多的worker来扩展Kafka连接集群。</li>
+<li>流/批处理集成：利用Kafka现有的功能，Kafka Connect是连接流和批处理数据系统的理想解决方案。</li>
+</ul>
+<p><strong>运行Kafka Connect自带Demo</strong></p>
+<p><em>前置条件：zookeeper集群和Kafka集群安装启动正常</em></p>
+<p>当你把Kafka集群安装成功后，Kafka Connect也安装好了。由上文可知，Kafka Connect启动方式分为单机模式和分布式模式，现在我们利用Kafka自带Connector分别对这两种模式进行测试。</p>
+<p><strong>单机模式</strong>：</p>
+<p>官网给出的单机模式启动命令：</p>
+<pre><code class="language-bash">bin/Connect-standalone.sh config/connect-standalone.properties connector1.properties [connector2.properties ...]
+</code></pre>
+<p>如上所示connect-standalone.sh为启动的脚本文件，放在bin目录下；Connect-standalone.properties为单机模式配置文件，放在config目录下；connector1.properties [connector2.properties ...]该处的配置文件为即为Connector配置文件，单机模式下启动可以启动多个Connector。</p>
+<p>在测试Demo前需要做少量配置</p>
+<p>config/Connect-standalone.properties</p>
+<pre><code class="language-properties"># 配置Kafka集群地址
+bootstrap.servers=localhost:9092
+# 配置偏移量保存地址
+offset.storage.file.filename=/data/connect-test/connect.offsets
+</code></pre>
+<p>config/Connect-file-source.properties</p>
+<pre><code class="language-properties"># Connector名称
+name=local-file-source
+# Connector类名，可以指定全类名
+connector.class=FileStreamSource
+tasks.max=1
+# Connector启动后读取文件的名称
+file=/data/connect-test/source.txt
+# 将读取的文件传到的topic名称
+topic=connect-test
+</code></pre>
+<p>config/connect-file-sink.properties</p>
+<pre><code class="language-properties"># Connector名称
+name=local-file-sink
+# Connector类名，可以指定全类名
+connector.class=FileStreamSink
+tasks.max=1
+# Connector启动后将Kafka数据保存到的文件名
+file=/data/connect-test/sink.txt
+# 读取数据的topic名称
+topics=connect-test
+</code></pre>
+<p>以上文件配置好后，就可以运行Kafka Connect启动命令了：</p>
+<pre><code class="language-shell">bin/connect-standalone.sh config/connect-standalone.properties config/connect-file-source.properties config/connect-file-sink.properties
+</code></pre>
+<p>说明：以上启动两个Connector，其中local-file-source读取/data/connect-test/source.txt的内容，同步到名为connect-test的topic中；local-file-sink读取connect-test的数据写进/data/connect-test/sink.txt文件中。打开source.txt文件往里面实时写数据，保存，sink.txt中能实时的得到数据，从而实现数据在不同文件之间的同步。</p>
+<p><strong>分布式模式</strong></p>
+<p>官网给出的分布式模式启动命令：</p>
+<pre><code class="language-shell">bin/connect-distributed.sh config/connect-distributed.properties
+</code></pre>
+<p>分布式模式下，启动命令只有一个配置文件connect-distributed.properties，在进行测试前，同样好做适当的配置</p>
+<pre><code class="language-properties"># 配置Kafka集群地址
+bootstrap.servers=localhost:9092
+# 该topic用于存储偏移量信息
+offset.storage.topic=connect-offsets
+# 该topic用于存储Connector与task的配置信息
+config.storage.topic=connect-configs
+# 该topic用于存储Connector的运行状态信息
+status.storage.topic=connect-status
+</code></pre>
+<p>说明：在分布式模式下依赖offset.storage.topic、config.storage.topic、status.storage.topic三个配置，这三个配置项至关重要，如不存在，Kafka会自动创建，但是在实际生产环境中，建议根据业务的数据量手动创建最适合的副本和分区。</p>
+<p>执行启动命令后，分布式模式下的Kafka Connect就启动成功了，在分布式模式下，不能用命令行启动Connector，需要用Kafka Connect的rest api来创建，以下用curl命令列举一些常用的rest api方法：</p>
+<pre><code class="language-shell"># 返回活跃的Connector列表。
+curl -i -X GET http://localhost:8083/connectors
+# 创建一个新的Connector；{请求体}是一个包含字符串name字段和对象config字段（Connector的配置参数）的JSON对象。
+curl -H &quot;Accept: application/json&quot; -H &quot;Content-type: application/json&quot; -X POST -d '{请求体}' http://localhost:8083/connectors
+# 获取指定Connector的信息。
+curl -i -X GET http://localhost:8083/connectors/{name}
+# 获取指定Connector的配置参数。
+curl -i -X GET http://localhost:8083/connectors/{name}/config
+# 获取Connector的当前状态，包括它是否正在运行，失败，暂停等。
+curl -i -X GET http://localhost:8083/connectors/{name}/status
+# 获取当前正在运行的Connector的任务列表。
+curl -i -X GET http://localhost:8083/connectors/{name}/tasks
+</code></pre>
+<p>如下所以：</p>
+<pre><code class="language-shell">root@ZCG04000023:/opt/Kafka_2.11-0.11.0.0/bin# curl -i -X GET http://localhost:8083/connectors
+HTTP/1.1 200 OK
+Date: Fri, 11 Oct 2019 09:44:57 GMT
+Content-Type: application/json
+Content-Length: 2
+Server: Jetty(9.2.15.v20160210)
+
+[] 
+</code></pre>
+<p>此时还没有任何Connector，返回[]。</p>
+<p>创建一个Connector：</p>
+<pre><code class="language-shell">root@ZCG04000023:/opt/Kafka_2.11-0.11.0.0/bin# curl -H &quot;Accept: application/json&quot; -H &quot;Content-type: application/json&quot; -X POST -d '{&quot;name&quot;:&quot;local-file-source&quot;,&quot;config&quot;:{&quot;connector.class&quot;:&quot;FileStreamSource&quot;,&quot;topic&quot;:&quot;connect-test&quot;,&quot;file&quot;:&quot;/data/connect-test/source.txt&quot;,&quot;tasks.max&quot;:&quot;1&quot;}}' http://localhost:8083/connectors
+
+{&quot;name&quot;:&quot;local-file-source&quot;,&quot;config&quot;:{&quot;connector.class&quot;:&quot;FileStreamSource&quot;,&quot;topic&quot;:&quot;connect-test&quot;,&quot;file&quot;:&quot;/data/connect-test/source.txt&quot;,&quot;tasks.max&quot;:&quot;1&quot;,&quot;name&quot;:&quot;local-file-source&quot;},&quot;tasks&quot;:[]}
+</code></pre>
+<p>此时再查看Connector:</p>
+<pre><code class="language-shell">root@ZCG04000023:/opt/Kafka_2.11-0.11.0.0/bin# curl -i -X GET http://localhost:8083/connectors
+HTTP/1.1 200 OK
+Date: Fri, 11 Oct 2019 10:00:02 GMT
+Content-Type: application/json
+Content-Length: 21
+Server: Jetty(9.2.15.v20160210)
+
+[&quot;local-file-source&quot;]
+</code></pre>
+<p>看到已经成功创建了一个名为local-file-source的Connector。</p>
+<p>获取local-file-source的信息：</p>
+<pre><code class="language-shell">root@ZCG04000023:/opt/Kafka_2.11-0.11.0.0/bin# curl -i -X GET http://localhost:8083/connectors/local-file-source
+HTTP/1.1 200 OK
+Date: Fri, 11 Oct 2019 10:08:05 GMT
+Content-Type: application/json
+Content-Length: 234
+Server: Jetty(9.2.15.v20160210)
+
+{&quot;name&quot;:&quot;local-file-source&quot;,&quot;config&quot;:{&quot;connector.class&quot;:&quot;FileStreamSource&quot;,&quot;file&quot;:&quot;/data/connect-test/source.txt&quot;,&quot;tasks.max&quot;:&quot;1&quot;,&quot;name&quot;:&quot;local-file-source&quot;,&quot;topic&quot;:&quot;connect-test&quot;},&quot;tasks&quot;:[{&quot;connector&quot;:&quot;local-file-source&quot;,&quot;task&quot;:0}]}
+</code></pre>
+<p>用同样的方式创建local-file-sink：</p>
+<pre><code class="language-shell">root@ZCG04000023:/opt/Kafka_2.11-0.11.0.0/bin# curl -H &quot;Accept: application/json&quot; -H &quot;Content-type: application/json&quot; -X POST -d '{&quot;name&quot;:&quot;local-file-sink&quot;,&quot;config&quot;:{&quot;connector.class&quot;:&quot;FileStreamSink&quot;,&quot;topic&quot;:&quot;connect-test&quot;,&quot;file&quot;:&quot;/data/connect-test/sink.txt&quot;,&quot;tasks.max&quot;:&quot;1&quot;}}' http://localhost:8083/connectors
+
+{&quot;name&quot;:&quot;local-file-sink&quot;,&quot;config&quot;:{&quot;connector.class&quot;:&quot;FileStreamSink&quot;,&quot;topic&quot;:&quot;connect-test&quot;,&quot;file&quot;:&quot;/data/connect-test/sink.txt&quot;,&quot;tasks.max&quot;:&quot;1&quot;,&quot;name&quot;:&quot;local-file-sink&quot;},&quot;tasks&quot;:[]}
+</code></pre>
+<p>source和sink创建好之后，就可以测试利用Kafka Connect的分布式模式实现文件的同步了。</p>
+<p>至此，我们已经初步了解了Kafka Connect的概念以及对其功能进行了简单的测试，下一步我们将对其Connector、task等组件进行分析。</p>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
@@ -163,6 +283,9 @@
 
 								<div class="nav-links3">
 									
+									
+									<div class="wow zoomIn nav-next3"><a href="https://githubgavin.github.io/hello-gridea/"
+											rel="next"> Hello Gridea</a></div>
 									
 								</div>
 							</nav>
