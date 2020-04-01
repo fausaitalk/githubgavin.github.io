@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <meta HTTP-EQUIV="expires" CONTENT="0">
-<title>关于 | 浮世Talk</title>
+<title>家庭版Win10启用内置Linux子系统（下） | 浮世Talk</title>
 
 <link rel="stylesheet" href="https://fausai.life/styles/main.css">
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
@@ -35,11 +35,13 @@
 
 <body class="post-template-default single single-post postid-70 single-format-standard">
 	<div id="wrapper">
-				<header id="header" class="site-header" >
+				<header id="header" class="site-header" 
+			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://fausai.life/post-images/win10-wsl-02.html.png)"
+			>
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
-						<a href="https://fausai.life" rel="home">关于</a>
+						<a href="https://fausai.life" rel="home">家庭版Win10启用内置Linux子系统（下）</a>
 					</div>
 				</h1>
 				<h2 class="site-description">逍遙浮世，與道俱成。人來人往，與君共勉。</h2>
@@ -127,13 +129,13 @@
 							<div class="entry-meta">
 								<div class="entry-info">
 									<time>
-										2019-01-25
+										2019-06-20
 									</time>
 									<span>
-										1 min read
+										7 min read
 									</span>
 									<!-- id 将作为查询条件 -->
-									<span id="/about/" class="leancloud_visitors"  data-flag-title="关于">
+									<span id="/win10-wsl-02.html/" class="leancloud_visitors"  data-flag-title="家庭版Win10启用内置Linux子系统（下）">
 										<span class="leancloud-visitors-count"></span>次阅读
 									</span>
 									<span class="isTop">
@@ -149,22 +151,114 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+								<p>看完上一篇文章后，相信勤于动手操作的你，已经启用了win10内置的Linux系统（以下简称wsl），或许你已经在上面尝试了不少Linux命令，并且可能沉浸在命令行的交互中流连忘返。但是细心如你应该会发现：此时你是用你在安装时新建的普通用户登录的，并不知道root用户的密码；怎样才能在不重启电脑的情况下重启wsl；当你输入df -h命令查看磁盘空间时会看到类似/mnt/c、/mnt/d这样的目录；在secureCRT或Xshell工具无法用账号密码登录Linux系统...诸如此类的问题，我们现在就把它解决。</p>
+<p>1，设置Linux系统root用户密码</p>
+<p>在你安装wsl过程中，并没有任何设置root密码的提示，默认情况下在每次开机系统就会为root用户随机分配一个新密码，因此我们要为root用户初始化一个密码。<br>
+首先在命令行输入sudo passwd，输入当前用户密码，按Enter键，出现Enter new UNIX password的提示，这就是需要为root用户设置的密码，输入一个你想好的密码，按Enter键，接着出现Retype new UNIX password提示，再把刚才的密码输入一遍即可。当你看到successfully时说明你的root密码设置成功了，接着可以输入su - root，按Enter键，输入root密码登录系统。具体如下所示：</p>
+<pre><code class="language-bash">gavin@ZCG04000023:~$ sudo passwd
+[sudo] password for gavin:
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+gavin@ZCG04000023:~$ su - root
+Password:
+root@ZCG04000023:~#
+</code></pre>
+<p>2，重启wsl</p>
+<p>从Windows Subsystem for Linux这个名字我们就可以看出，wsl作为Windows操作系统下的应用级别程序，并没有把systemd纳入进来，因此我们无法用reboot命令进行系统重启。如果在Linux子系统下更改了某些配置需要重启才能生效的，该如何处理呢？难道要重启电脑吗？当然不用，可以到Windows服务中通过重启Lxssmanager实现wsl的重启，步骤如下：<br>
+按Win键 + R，在弹出的框中输入services.msc，按Enter键即可弹出Windows服务窗口，找到Lxssmanager，右键，选择“重新启动”即可。</p>
+<figure data-type="image" tabindex="1"><img src="https://fausai.life/post-images/1585650257988.jpg" alt="" loading="lazy"></figure>
+<p>3，将挂载在mnt目录下的磁盘修改成挂载在根目录</p>
+<p>mnt为mount（可翻译为“挂载”）的简写，mnt作为Linux系统的一个目录，是系统管理员临时挂载文件系统的安装点，程序并不自动支持安装到/mnt目录下。当你在命令行中敲下df -h时你会看到类似如下内容：</p>
+<pre><code class="language-bash">gavin@ZCG04000023:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+rootfs           84G   58G   27G  69% /
+none             84G   58G   27G  69% /dev
+none             84G   58G   27G  69% /run
+none             84G   58G   27G  69% /run/lock
+none             84G   58G   27G  69% /run/shm
+none             84G   58G   27G  69% /run/user
+C:               84G   58G   27G  69% /mnt/c
+D:              141G   63G   78G  45% /mnt/d
+</code></pre>
+<p>当然，你也可以忽略它，mnt的存在并不妨碍你学习Linux命令，但是改为直接挂载在根目录下，除了目录名短一点外，在后面学习docker共享目录时，这个mnt的存在可能会影响到docker目录的挂载，所以还是及早的改好。修改也是简单的事，执行命令sudo vim /etc/wsl.conf，输入密码，如果wsl.conf不存在时，该命令会新建一个。接着在文件里填上以下内容：（按i进入编辑模式）</p>
+<pre><code class="language-bash">[automount]
+root = /
+options = &quot;metadata&quot;
+</code></pre>
+<p>按exc键退出编辑模式，然后按shift + ：，再按wq，按Enter，就能保存并退出了。更改需要重启wsl才能生效。按照重启步骤重启后，我们再输入df -h命令，将会看到已经把mnt去掉了：</p>
+<pre><code class="language-bash">gavin@ZCG04000023:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+rootfs           84G   58G   27G  69% /
+none             84G   58G   27G  69% /dev
+none             84G   58G   27G  69% /run
+none             84G   58G   27G  69% /run/lock
+none             84G   58G   27G  69% /run/shm
+none             84G   58G   27G  69% /run/user
+C:               84G   58G   27G  69% /c
+D:              141G   63G   78G  45% /d
+</code></pre>
+<p>PS:以上步骤中涉及到的vim的语法如果不熟悉，建议到到网上找vim相关文章参考，以下是vim 键盘图 。<br>
+<img src="https://fausai.life/post-images/1585650244142.jpg" alt="" loading="lazy"><br>
+图片来自Linux vi/vim | 菜鸟教程</p>
+<p>4，使用secureCRT/Xshell客户端登录wsl</p>
+<p>当你在Windows中启用wsl成功后，系统会有一个Linux shell终端可以让你连上wsl进行命令操作，一般说来，这个Linux shell是能work（堪用）的，但是对于品味挑剔的你来说，自带的Linux shell功能还是不够强大：不能在一个窗口打开多个tab页，不能设置多个连接记录，不能设置快捷键，更没有你喜欢的花俏的皮肤和背景...这些理由，足以让你果断摈弃Linux shell，迫不及待的把secureCRT、Xshell装上。接下来就是示范如何使用secureCRT客户端登录wsl。<br>
+利用secureCRT登录wsl需要wsl启动ssh服务，前提是把ssh服务安装到wsl上，在命令行中执行以下命令，即可把ssh服务安装好。</p>
+<pre><code class="language-bash">sudo apt-get update #获取软件的最新状态
+sudo apt-get remove openssh-server #卸载自带的ssh
+sudo apt-get install -y openssh-server #安装ssh服务
+</code></pre>
+<p>ssh服务安装好之后，需要进行配置才能利用账号密码登录，否则需要ssh证书验证，修改sshd_config文件可以允许用户采用密码登录。</p>
+<pre><code class="language-bash">sudo vim /etc/ssh/sshd_config
+</code></pre>
+<pre><code class="language-bash"># To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication yes #打开这个注释，即可允许用户用密码方式登录
+</code></pre>
+<p>修改好后保存、退出，执行命令sudo service ssh start启动ssh服务</p>
+<pre><code class="language-bash">gavin@ZCG04000023:~$ sudo service ssh start
+ * Starting OpenBSD Secure Shell server sshd               [ OK ]
+gavin@ZCG04000023:~$
+</code></pre>
+<p>sudo service ssh status查看ssh服务状态</p>
+<pre><code class="language-bash">gavin@ZCG04000023:~$ sudo service ssh status
+ * sshd is running
+gavin@ZCG04000023:~$
+</code></pre>
+<p>现在可以用secureCRT登录wsl了，首先得把secureCRT安装好，文末有软件共享地址。启动secureCRT，按照下图步骤配置：</p>
+<p><img src="https://fausai.life/post-images/1585650276120.jpg" alt="" loading="lazy"><br>
+在弹出的框中填写密码，建议把Save password选项勾上，点击ok</p>
+<figure data-type="image" tabindex="2"><img src="https://fausai.life/post-images/1585650283651.jpg" alt="" loading="lazy"></figure>
+<p>连接成功后如下图所示：</p>
+<figure data-type="image" tabindex="3"><img src="https://fausai.life/post-images/1585650291714.jpg" alt="" loading="lazy"></figure>
+<p>PS：目前ssh服务是wsl启动后通过service ssh start手动启动的，对于如何设置ssh服务开机启动，可以参考文末GitHub地址。</p>
+<pre><code class="language-bash">secureCRT下载： 
+https://pan.baidu.com/s/1rw_xm6uNhfRLNiUlChqt8Q 提取码：tw7z  
+wsl-autostart地址： 
+https://github.com/troytse/wsl-autostart
+</code></pre>
+<hr>
+<figure data-type="image" tabindex="4"><img src="https://fausai.life/post-images/1585650079974.gif" alt="" loading="lazy"></figure>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
+								
+								<a href="https://fausai.life/windows/" rel="tag">windows</a>
+								
+								<a href="https://fausai.life/Linux/" rel="tag">Linux</a>
+								
+								<a href="https://fausai.life/WSL/" rel="tag">WSL</a>
 								
 							</div>
 							<nav class="navigation3 post-navigation3" role="navigation">
 
 								<div class="nav-links3">
 									
+									<div class="wow zoomIn nav-previous3"><a href="https://fausai.life/kafka-connector-01.html/"
+											rel="prev"> Kafka Connect入门</a></div>
+									
+									
+									<div class="wow zoomIn nav-next3"><a href="https://fausai.life/win10-wsl-01.html/"
+											rel="next"> 家庭版Win10启用内置Linux子系统（上）</a></div>
 									
 								</div>
 							</nav>
