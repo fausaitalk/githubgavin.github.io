@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <meta HTTP-EQUIV="expires" CONTENT="0">
-<title>家庭版Win10启用内置Linux子系统（下） | 浮世Talk</title>
+<title>家庭版Win10内置Linux系统安装docker | 浮世Talk</title>
 
 <link rel="stylesheet" href="https://fausai.life/styles/main.css">
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
@@ -36,12 +36,12 @@
 <body class="post-template-default single single-post postid-70 single-format-standard">
 	<div id="wrapper">
 				<header id="header" class="site-header" 
-			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://fausai.life/post-images/win10-wsl-02.html.png)"
+			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://fausai.life/post-images/win10-wsl-docker-01.html.jpg)"
 			>
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
-						<a href="https://fausai.life" rel="home">家庭版Win10启用内置Linux子系统（下）</a>
+						<a href="https://fausai.life" rel="home">家庭版Win10内置Linux系统安装docker</a>
 					</div>
 				</h1>
 				<h2 class="site-description">逍遙浮世，與道俱成。人來人往，與君共勉。</h2>
@@ -129,13 +129,13 @@
 							<div class="entry-meta">
 								<div class="entry-info">
 									<time>
-										2019-06-20
+										2019-06-22
 									</time>
 									<span>
-										7 min read
+										9 min read
 									</span>
 									<!-- id 将作为查询条件 -->
-									<span id="/win10-wsl-02.html/" class="leancloud_visitors"  data-flag-title="家庭版Win10启用内置Linux子系统（下）">
+									<span id="/win10-wsl-docker-01.html/" class="leancloud_visitors"  data-flag-title="家庭版Win10内置Linux系统安装docker">
 										<span class="leancloud-visitors-count"></span>次阅读
 									</span>
 									<span class="isTop">
@@ -151,114 +151,159 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<p>看完上一篇文章后，相信勤于动手操作的你，已经启用了win10内置的Linux系统（以下简称wsl），或许你已经在上面尝试了不少Linux命令，并且可能沉浸在命令行的交互中流连忘返。但是细心如你应该会发现：此时你是用你在安装时新建的普通用户登录的，并不知道root用户的密码；怎样才能在不重启电脑的情况下重启wsl；当你输入df -h命令查看磁盘空间时会看到类似/mnt/c、/mnt/d这样的目录；在secureCRT或Xshell工具无法用账号密码登录Linux系统...诸如此类的问题，我们现在就把它解决。</p>
-<p>1，设置Linux系统root用户密码</p>
-<p>在你安装wsl过程中，并没有任何设置root密码的提示，默认情况下在每次开机系统就会为root用户随机分配一个新密码，因此我们要为root用户初始化一个密码。<br>
-首先在命令行输入sudo passwd，输入当前用户密码，按Enter键，出现Enter new UNIX password的提示，这就是需要为root用户设置的密码，输入一个你想好的密码，按Enter键，接着出现Retype new UNIX password提示，再把刚才的密码输入一遍即可。当你看到successfully时说明你的root密码设置成功了，接着可以输入su - root，按Enter键，输入root密码登录系统。具体如下所示：</p>
-<pre><code class="language-bash">gavin@ZCG04000023:~$ sudo passwd
-[sudo] password for gavin:
-Enter new UNIX password:
-Retype new UNIX password:
-passwd: password updated successfully
-gavin@ZCG04000023:~$ su - root
-Password:
-root@ZCG04000023:~#
+								<p>相信有过编程经历的朋友都有这样的体会：为了学习一门技术去安装软件时，不仅需要根据操作系统选择版本，还要考虑所依赖的软件，完了还有各种变量配置，环境配置等</p>
+<p>当然，这点小问题难不住聪明好学的你，但就是因为这该死的好学给你带来无限的磨难</p>
+<h1 id="前言">前言</h1>
+<p>很快你又会进行新技能的学习，巧合的是你仍然需要安装软件。随着安装的软件种类、版本增加，很可能会影响到你之前在电脑上呕心沥血配置好的其它学习环境，而你却全然不知</p>
+<p>当你意识到这个问题的严重性，并且想要逐个问题排查、解决时，随之而来的就是无尽的痛苦。时光荏苒，斗转星移，现在我还能想起当年安装Oracle时惨痛的经历…</p>
+<p>除了在我们学习中遇到安装配置的麻烦之外，在公司生产服务器中，这种问题的严重性更加突出，归根到底还是我们对软件安装管理的方式出了问题，导致服务器系统越用越乱，最后一团糟</p>
+<p>解决这个问题，首先我们需要一台干净的服务器，并且尽可能的一直保持它干净</p>
+<p>声名显赫的docker，就能很好的解决这个问题。关于docker，网上很多资料介绍，从概念、原理、源码甚至哲学思想层面，可谓面面俱到，这里简单的说明一下即可</p>
+<blockquote>
+<ul>
+<li>docker是一款开源的软件管理工具，它包括了一个命令行客户端程序、一个后台守护进程，以及一组远程服务</li>
+<li>它提供了一种在容器中运行安全隔离的应用程序的方法，能快速解决如安装、配置、运行、发布、升级、卸载等软件管理问题</li>
+<li>docker专注解决软件管理问题，让你专注于高价值的事</li>
+</ul>
+</blockquote>
+<p><strong>你可以在官方文档中了解更多关于docker的信息：<a href="https://docs.docker.com/">https://docs.docker.com/</a></strong></p>
+<p>用docker管理你的软件，首先得有docker，docker最好的安装环境是ubuntu/centos/RedHat，我的电脑是Win10家庭版操作熊，启用了内置的Linux子系统（wsl），先就一步步演示如何在wsl上安装docker。</p>
+<h1 id="1在wsl上安装docker">1，在wsl上安装docker</h1>
+<p>首先卸载掉ubuntu中可能存在的旧版本docker，执行以下命令</p>
+<pre><code class="language-bash">sudo apt-get remove docker docker-engine docker-ce docker.io
 </code></pre>
-<p>2，重启wsl</p>
-<p>从Windows Subsystem for Linux这个名字我们就可以看出，wsl作为Windows操作系统下的应用级别程序，并没有把systemd纳入进来，因此我们无法用reboot命令进行系统重启。如果在Linux子系统下更改了某些配置需要重启才能生效的，该如何处理呢？难道要重启电脑吗？当然不用，可以到Windows服务中通过重启Lxssmanager实现wsl的重启，步骤如下：<br>
-按Win键 + R，在弹出的框中输入services.msc，按Enter键即可弹出Windows服务窗口，找到Lxssmanager，右键，选择“重新启动”即可。</p>
-<figure data-type="image" tabindex="1"><img src="https://fausai.life/post-images/1585650257988.jpg" alt="" loading="lazy"></figure>
-<p>3，将挂载在mnt目录下的磁盘修改成挂载在根目录</p>
-<p>mnt为mount（可翻译为“挂载”）的简写，mnt作为Linux系统的一个目录，是系统管理员临时挂载文件系统的安装点，程序并不自动支持安装到/mnt目录下。当你在命令行中敲下df -h时你会看到类似如下内容：</p>
-<pre><code class="language-bash">gavin@ZCG04000023:~$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs           84G   58G   27G  69% /
-none             84G   58G   27G  69% /dev
-none             84G   58G   27G  69% /run
-none             84G   58G   27G  69% /run/lock
-none             84G   58G   27G  69% /run/shm
-none             84G   58G   27G  69% /run/user
-C:               84G   58G   27G  69% /mnt/c
-D:              141G   63G   78G  45% /mnt/d
+<p>然后执行以下命令，等待片刻即可安装完毕</p>
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get install docker.io &amp; y
 </code></pre>
-<p>当然，你也可以忽略它，mnt的存在并不妨碍你学习Linux命令，但是改为直接挂载在根目录下，除了目录名短一点外，在后面学习docker共享目录时，这个mnt的存在可能会影响到docker目录的挂载，所以还是及早的改好。修改也是简单的事，执行命令sudo vim /etc/wsl.conf，输入密码，如果wsl.conf不存在时，该命令会新建一个。接着在文件里填上以下内容：（按i进入编辑模式）</p>
-<pre><code class="language-bash">[automount]
-root = /
-options = &quot;metadata&quot;
+<p>当上面步骤执行成功后，执行以下命令启动docker</p>
+<pre><code class="language-bash">1gavin@ZCG04000023:~$ sudo service docker start
+2[sudo] password for gavin:
+3 * Starting Docker: docker                                   [ OK ]
+4gavin@ZCG04000023:~$
 </code></pre>
-<p>按exc键退出编辑模式，然后按shift + ：，再按wq，按Enter，就能保存并退出了。更改需要重启wsl才能生效。按照重启步骤重启后，我们再输入df -h命令，将会看到已经把mnt去掉了：</p>
-<pre><code class="language-bash">gavin@ZCG04000023:~$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs           84G   58G   27G  69% /
-none             84G   58G   27G  69% /dev
-none             84G   58G   27G  69% /run
-none             84G   58G   27G  69% /run/lock
-none             84G   58G   27G  69% /run/shm
-none             84G   58G   27G  69% /run/user
-C:               84G   58G   27G  69% /c
-D:              141G   63G   78G  45% /d
+<p>docker启动成功，输入docker version，看到以下内容即为安装成功</p>
+<figure data-type="image" tabindex="1"><img src="https://fausai.life/post-images/1585783264453.jpg" alt="" loading="lazy"></figure>
+<p>虽然安装成功，但是现在的docker是不能用的，细心的你可能看到docker输出了这个提示：</p>
+<pre><code class="language-bash">Cannot connect to the Docker daemon at tcp://127.0.0.1:2375. Is the docker daemon running?
 </code></pre>
-<p>PS:以上步骤中涉及到的vim的语法如果不熟悉，建议到到网上找vim相关文章参考，以下是vim 键盘图 。<br>
-<img src="https://fausai.life/post-images/1585650244142.jpg" alt="" loading="lazy"><br>
-图片来自Linux vi/vim | 菜鸟教程</p>
-<p>4，使用secureCRT/Xshell客户端登录wsl</p>
-<p>当你在Windows中启用wsl成功后，系统会有一个Linux shell终端可以让你连上wsl进行命令操作，一般说来，这个Linux shell是能work（堪用）的，但是对于品味挑剔的你来说，自带的Linux shell功能还是不够强大：不能在一个窗口打开多个tab页，不能设置多个连接记录，不能设置快捷键，更没有你喜欢的花俏的皮肤和背景...这些理由，足以让你果断摈弃Linux shell，迫不及待的把secureCRT、Xshell装上。接下来就是示范如何使用secureCRT客户端登录wsl。<br>
-利用secureCRT登录wsl需要wsl启动ssh服务，前提是把ssh服务安装到wsl上，在命令行中执行以下命令，即可把ssh服务安装好。</p>
-<pre><code class="language-bash">sudo apt-get update #获取软件的最新状态
-sudo apt-get remove openssh-server #卸载自带的ssh
-sudo apt-get install -y openssh-server #安装ssh服务
+<p>daemon（守护进程）是docker的重要组成部分，用于监听客户端的请求，它运行在2375这个端口，由于目前wsl还不支持docker的守护进程，所以出现Is the docker daemon running?这个提示，我们可以安装docker for Windows来解决这个问题</p>
+<p>安装docker for Windows的前提是，你的电脑要打开Hyper-V功能</p>
+<h1 id="2启用windows-hyper-v功能">2，启用Windows Hyper-V功能</h1>
+<p>先发微软官方文档的一个截图</p>
+<figure data-type="image" tabindex="2"><img src="https://fausai.life/post-images/1585783279925.jpg" alt="" loading="lazy"></figure>
+<p>很明白了，Win10家庭版不支持Hyper-V功能，如果你的电脑是专业版、企业版或者教育版，可以忽略这节内容，直接到控制面板-&gt;程序和功能-&gt;启用或关闭Windows功能将Hyper-V开启，如果你用的是家庭版，继续看下去，我们愉快的踩坑吧</p>
+<p>1，在一个目录（例如D:\tmp）下新建一个脚本，例如hyper-v.cmd，输入以下内容</p>
+<pre><code class="language-bash">pushd &quot;%~dp0&quot;
+dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &gt;hyper-v.txt
+for /f %%i in ('findstr /i . hyper-v.txt 2^&gt;nul') do dism /online /norestart /add-package:&quot;%SystemRoot%\servicing\Packages\%%i&quot;
+del hyper-v.txt
+Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL
 </code></pre>
-<p>ssh服务安装好之后，需要进行配置才能利用账号密码登录，否则需要ssh证书验证，修改sshd_config文件可以允许用户采用密码登录。</p>
-<pre><code class="language-bash">sudo vim /etc/ssh/sshd_config
+<p>保存，接着选中hyper-v.cmd脚本右键，以管理员身份运行，运行完毕，会提示你重启电脑</p>
+<p>电脑重启完毕，到<code>控制面板-&gt;程序和功能-&gt;启用或关闭Windows功能</code>将Hyper-V开启，点击确定</p>
+<figure data-type="image" tabindex="3"><img src="https://fausai.life/post-images/1585783297581.jpg" alt="" loading="lazy"></figure>
+<p>以管理员身份打开cmd，运行以下命令，该命令把你电脑伪装成专业版</p>
+<pre><code class="language-bash">REG ADD &quot;HKEY_LOCAL_MACHINE\software\Microsoft\Windows NT\CurrentVersion&quot; /v EditionId /T REG_EXPAND_SZ /d Professional /F
 </code></pre>
-<pre><code class="language-bash"># To disable tunneled clear text passwords, change to no here!
-PasswordAuthentication yes #打开这个注释，即可允许用户用密码方式登录
+<h1 id="3安装docker-for-windows">3，安装docker for Windows</h1>
+<p>可以到官网下载docker for Windows，速度还是相当快的，如不嫌弃，我呈上百度网盘里收藏的一份</p>
+<pre><code class="language-wiki">官网地址：https://docs.docker.com/docker-for-windows/release-notes/
+网盘链接：https://pan.baidu.com/s/1C_k7VzsJ33J72raF1fJOxQ 提取码：lxjk 
 </code></pre>
-<p>修改好后保存、退出，执行命令sudo service ssh start启动ssh服务</p>
-<pre><code class="language-bash">gavin@ZCG04000023:~$ sudo service ssh start
- * Starting OpenBSD Secure Shell server sshd               [ OK ]
-gavin@ZCG04000023:~$
+<p>下载完毕，就是安装，安装过程中会出现一个下图一样的提示，如果默认打了勾，请去掉</p>
+<figure data-type="image" tabindex="4"><img src="https://fausai.life/post-images/1585783329909.jpg" alt="" loading="lazy"></figure>
+<p>安装成功后，电脑右下角会有docker可爱的logo在闪烁，待其闪烁完毕，docker for windows就启动成功了</p>
+<figure data-type="image" tabindex="5"><img src="https://fausai.life/post-images/1585783337848.jpg" alt="" loading="lazy"></figure>
+<p>先控制一下情绪，再做点配置，我们就可以使用docker了</p>
+<p>回忆上面在wsl上运行docker version时看到的提示</p>
+<pre><code class="language-bash">Cannot connect to the Docker daemon at tcp://127.0.0.1:2375. Is the docker daemon running?
 </code></pre>
-<p>sudo service ssh status查看ssh服务状态</p>
-<pre><code class="language-bash">gavin@ZCG04000023:~$ sudo service ssh status
- * sshd is running
-gavin@ZCG04000023:~$
+<p>现在我们可以解决它了，右键电脑右下角docker的logo，点击settings，在弹出的界面中，进行下图操作，docker会自动重启</p>
+<figure data-type="image" tabindex="6"><img src="https://fausai.life/post-images/1585783356694.jpg" alt="" loading="lazy"></figure>
+<p>接着，在wsl的命令行中输入vim .bashrc，打开bashrc文件，在文件末尾添加以下内容</p>
+<pre><code class="language-bash">export DOCKER_HOST=tcp://127.0.0.1:2375
 </code></pre>
-<p>现在可以用secureCRT登录wsl了，首先得把secureCRT安装好，文末有软件共享地址。启动secureCRT，按照下图步骤配置：</p>
-<p><img src="https://fausai.life/post-images/1585650276120.jpg" alt="" loading="lazy"><br>
-在弹出的框中填写密码，建议把Save password选项勾上，点击ok</p>
-<figure data-type="image" tabindex="2"><img src="https://fausai.life/post-images/1585650283651.jpg" alt="" loading="lazy"></figure>
-<p>连接成功后如下图所示：</p>
-<figure data-type="image" tabindex="3"><img src="https://fausai.life/post-images/1585650291714.jpg" alt="" loading="lazy"></figure>
-<p>PS：目前ssh服务是wsl启动后通过service ssh start手动启动的，对于如何设置ssh服务开机启动，可以参考文末GitHub地址。</p>
-<pre><code class="language-bash">secureCRT下载： 
-https://pan.baidu.com/s/1rw_xm6uNhfRLNiUlChqt8Q 提取码：tw7z  
-wsl-autostart地址： 
-https://github.com/troytse/wsl-autostart
+<p>保存，退出，重新启动命令行，再次输入docker version，就发现没有那个提示了</p>
+<pre><code class="language-bash"> 1gavin@ZCG04000023:~$ docker version
+ 2Client:
+ 3 Version:           18.09.5
+ 4 API version:       1.39
+ 5 Go version:        go1.10.4
+ 6 Git commit:        e8ff056
+ 7 Built:             Thu May  9 23:11:19 2019
+ 8 OS/Arch:           linux/amd64
+ 9 Experimental:      false
+10Server: Docker Engine - Community
+11 Engine:
+12  Version:          18.09.2
+13  API version:      1.39 (minimum version 1.12)
+14  Go version:       go1.10.6
+15  Git commit:       6247962
+16  Built:            Sun Feb 10 04:13:06 2019
+17  OS/Arch:          linux/amd64
+18  Experimental:     false
 </code></pre>
+<p>到目前为止，docker在你的wsl中能成功的运行啦，需要注意的一点是，docker for Windows安装默认会把docker下载的镜像文件放在系统盘下，如果你的系统盘空间比较紧张，建议你在没用使用docker之前，把放置镜像文件的目录改到其它盘</p>
+<p>右键电脑右下角docker的logo，点击settings，选中Advanced，将image location改到你需要的目录，例如我改到D:\Hyper-V\Virtual Hard Disks\目录下</p>
+<figure data-type="image" tabindex="7"><img src="https://fausai.life/post-images/1585783369376.jpg" alt="" loading="lazy"></figure>
+<h1 id="4快速体验docker">4，快速体验docker</h1>
+<p>历经艰辛，我们终于把docker在wsl中安装成功了，你是不是已经跃跃欲试啦，来，让我们肆无忌惮的使用docker吧</p>
+<p>从我们熟悉的mysql开始来快速体验docker</p>
+<p>如果你不懂docker语法，可以忽略以下命令的细节，直接围观，感受一下docker的威力即可</p>
+<p>执行docker pull mysql命令，docker将会从远程镜像仓库中将mysql镜像下载</p>
+<pre><code class="language-bash"> 1gavin@ZCG04000023:~$ docker pull mysql
+ 2Using default tag: latest
+ 3latest: Pulling from library/mysql
+ 4fc7181108d40: Downloading [==========================&gt;                        ]  11.73MB/22.49MB
+ 5787a24c80112: Download complete
+ 6a08cb039d3cd: Download complete
+ 74f7d35eb5394: Download complete
+ 85aa21f895d95: Download complete
+ 9a742e211b7a2: Downloading [===========================================&gt;       ]  10.51MB/12.11MB
+100163805ad937: Download complete
+1187f18876c3ff: Waiting
+1278082f25f167: Waiting
+130a510f055c17: Waiting
+14312b0999e433: Waiting
+15f864cfdc0264: Waiting
+</code></pre>
+<p>待下载解压完毕，执行docker images命令查看我们的docker镜像</p>
+<pre><code class="language-bash">1gavin@ZCG04000023:~$ docker images
+2REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
+3mysql                      latest              a522071a8cc3        20 hours ago        443MB
+</code></pre>
+<p>话不多说，执行以下命令，即可运行我们的mysql容器</p>
+<pre><code class="language-bash">docker run -d --name mysql --rm -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql
+</code></pre>
+<p>执行以下命令，进入mysql容器</p>
+<pre><code class="language-bash">docker exec -it mysql /bin/bash
+</code></pre>
+<p>现在，让我们像平时一样，用最熟悉的方式登录mysql数据库，尽情玩耍吧</p>
+<figure data-type="image" tabindex="8"><img src="https://fausai.life/post-images/1585783400171.jpg" alt="" loading="lazy"></figure>
+<h1 id="5总结">5，总结</h1>
+<p>docker容器技术非常强大，已有无数业内的技术巨拿毫不吝啬的给予它潮水般的褒扬之词，我相信，技术嗅觉敏锐的你肯定早已有所耳闻</p>
+<p>很多软件，如ELK、CDH等大数据产品都贴心的提供了docker镜像版本，目的就是为了能让开发者迅速的安装体验，不用把时间浪费在环境配置上，从而可以快速的评估该技术是否符合项目选型需求</p>
+<p>在学习技术的道路上，我们拼尽全力往前走，不是为了踩更多的坑，「生命是有限的，技术的坑是无限的，用有限的生命去踩无限的坑是危险的」，如果是因为软件安装环境的问题折腾到凌晨四点，这样很不明智，也有害于健康</p>
+<p><strong>尽快用上docker，早点扣响真理的大门</strong></p>
+<p><code>扩展练习： 如何为docker配置国内镜像加速？</code></p>
 <hr>
-<figure data-type="image" tabindex="4"><img src="https://fausai.life/post-images/1585650079974.gif" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://fausai.life/post-images/1585783453338.gif" alt="" loading="lazy"></figure>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
-								
-								<a href="https://fausai.life/windows/" rel="tag">windows</a>
-								
-								<a href="https://fausai.life/Linux/" rel="tag">Linux</a>
-								
-								<a href="https://fausai.life/WSL/" rel="tag">WSL</a>
 								
 							</div>
 							<nav class="navigation3 post-navigation3" role="navigation">
 
 								<div class="nav-links3">
 									
-									<div class="wow zoomIn nav-previous3"><a href="https://fausai.life/win10-wsl-docker-01.html/"
-											rel="prev"> 家庭版Win10内置Linux系统安装docker</a></div>
+									<div class="wow zoomIn nav-previous3"><a href="https://fausai.life/kafka-connector-01.html/"
+											rel="prev"> Kafka Connect入门</a></div>
 									
 									
-									<div class="wow zoomIn nav-next3"><a href="https://fausai.life/win10-wsl-01.html/"
-											rel="next"> 家庭版Win10启用内置Linux子系统（上）</a></div>
+									<div class="wow zoomIn nav-next3"><a href="https://fausai.life/win10-wsl-02.html/"
+											rel="next"> 家庭版Win10启用内置Linux子系统（下）</a></div>
 									
 								</div>
 							</nav>
