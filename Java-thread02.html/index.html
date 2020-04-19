@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <meta HTTP-EQUIV="expires" CONTENT="0">
-<title>关于 | 浮世Talk</title>
+<title>Java多线程编程|线程安全问题 | 浮世Talk</title>
 
 <link rel="stylesheet" href="https://fausai.life/styles/main.css">
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
@@ -35,11 +35,13 @@
 
 <body class="post-template-default single single-post postid-70 single-format-standard">
 	<div id="wrapper">
-				<header id="header" class="site-header" >
+				<header id="header" class="site-header" 
+			style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://fausai.life/post-images/Java-thread02.html.jpeg)"
+			>
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
-						<a href="https://fausai.life" rel="home">关于</a>
+						<a href="https://fausai.life" rel="home">Java多线程编程|线程安全问题</a>
 					</div>
 				</h1>
 				<h2 class="site-description">逍遙浮世，與道俱成。人來人往，與君共勉。</h2>
@@ -127,13 +129,13 @@
 							<div class="entry-meta">
 								<div class="entry-info">
 									<time>
-										2019-01-25
+										2020-04-19
 									</time>
 									<span>
-										1 min read
+										5 min read
 									</span>
 									<!-- id 将作为查询条件 -->
-									<span id="/about/" class="leancloud_visitors"  data-flag-title="关于">
+									<span id="/Java-thread02.html/" class="leancloud_visitors"  data-flag-title="Java多线程编程|线程安全问题">
 										<span class="leancloud-visitors-count"></span>次阅读
 									</span>
 									<span class="isTop">
@@ -149,23 +151,123 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
+								<h3 id="线程安全问题定义">线程安全问题定义</h3>
+<p>安全这个词在自然或者人类社会多用来表示没有受到威胁、危险、危害、损失等意外，表示的是一种状态。而在编程领域的线程安全问题是怎么回事呢？我们来看一下维基百科是怎么定义线程安全的。</p>
+<blockquote>
+<p>Thread safety is a computer programming concept applicable to multi-threaded code. Thread-safe code only manipulates shared data structures in a manner that ensures that all threads behave properly and fulfill their design specifications without unintended interaction. There are various strategies for making thread-safe data structures.</p>
 </blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
-<figure data-type="image" tabindex="1"><img src="https://fausai.life/post-images/1585748675788.jpg" alt="" loading="lazy"></figure>
+<p>意思就是说，线程安全是编程中的术语，指某个函数、函数库在<code>多线程环境</code>中被调用时，能够正确地处理多个线程之间的<code>共享资源</code>，使程序功能正确完成。也就是说当你在多线程环境下操作了共享资源而使得程序输出结果不正确，即触发了线程安全问题。</p>
+<h3 id="模拟线程安全问题">模拟线程安全问题</h3>
+<p>有前面可以知道，必须符合两个条件的前提下，才能出现线程问题</p>
+<ul>
+<li>多线程环境</li>
+<li>操作共享资源</li>
+</ul>
+<p>想必大家在今年疫情最严重的的2月份都有过在网上抢口罩的经历吧，在这里我们可以把口罩看作公共资源，我们一个个在网上进行抢口罩的人就是一个个线程，千千万万的人同时在同一个网站上抢口罩的例子就可以看作为多线程环境下操作共享资源的场景。</p>
+<p>接下来我们可以通过代码来模拟这一现象。</p>
+<figure data-type="image" tabindex="1"><img src="https://fausai.life/post-images/1587305173981.jpeg" alt="" loading="lazy"></figure>
+<ul>
+<li>GrabMaskDemo代码</li>
+</ul>
+<pre><code>public class GrabMaskDemo01 implements Runnable {
+    private int masks = 100;
+    public void run() {
+        while (true) {
+            if (masks &gt; 0) {
+                try {
+                    Thread.sleep(500);
+                    String name = Thread.currentThread().getName();
+                    System.out.println(&quot;恭喜&quot; + name + &quot;抢到第&quot; + masks + &quot;个口罩&quot;);
+                    masks--;
+                } catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+    public static void main(String[] args) {
+        GrabMaskDemo01 grabMaskDemo01 = new GrabMaskDemo01();
+        Thread t1 = new Thread(grabMaskDemo01);
+        Thread t2 = new Thread(grabMaskDemo01);
+        Thread t3 = new Thread(grabMaskDemo01);
+        t1.setName(&quot;张三&quot;);
+        t2.setName(&quot;李四&quot;);
+        t3.setName(&quot;王五&quot;);
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+</code></pre>
+<p>以上定义一个GrabMaskDemo01类，并实现了Runnable接口，masks=100表示有100个口罩供应，run方法通过while循环模拟抢口罩过程。在main方法中启动三个线程表示有三个人一起抢口罩操作，运行程序输出结果如下所示：</p>
+<figure data-type="image" tabindex="2"><img src="https://fausai.life/post-images/1587305210869.png" alt="" loading="lazy"></figure>
+<p>从以上截图可以看到，出现了抢到重复口罩的情况，甚至出现了零和负数的结果。这就是出现了线程安全问题了，原因是多个线程操作的是同一个共享资源，而线程之间是彼此独立、互相隔绝的，这样就会出现一个线程更改了数据而不能同步更新的情况，导致程序运行结果混乱。显然这是不被允许的，不然重复被抢到的口罩归谁？那怎么解决这个问题呢？</p>
+<h3 id="解决线程安全问题">解决线程安全问题</h3>
+<p>既然是因为多线程操作了共享变量才触发了线程安全问题，那么我们就可以设置在某个线程操作共享变量时，将其和其它线程隔离起来，使得其它线程不能对其干扰，这样就可以解决线程安全问题了。</p>
+<p>在Java中就提供一个同步锁机制来专门解决线程安全问题的，有两种实现方式，分别是同步方法和同步代码块，都依赖synchronized关键字来实现。</p>
+<ul>
+<li>
+<p>同步方法</p>
+<pre><code>private synchronized void grabMask() {
+    while (true) {
+        if (masks &gt; 0) {
+            try {
+                Thread.sleep(500);
+                String name = Thread.currentThread().getName();
+                System.out.println(&quot;恭喜&quot; + name + &quot;抢到第&quot; + masks + &quot;个口罩&quot;);
+                masks--;
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+}
+</code></pre>
+<p>同步方法顾名思义就是在方法上增加<code>synchronized</code>关键字即可。</p>
+</li>
+<li>
+<p>同步代码块</p>
+<pre><code>public void run() {
+    while (true) {
+        synchronized (this) {
+            if (masks &gt; 0) {
+                try {
+                    Thread.sleep(500);
+                    String name = Thread.currentThread().getName();
+                    System.out.println(&quot;恭喜&quot; + name + &quot;抢到第&quot; + masks + &quot;个口罩&quot;);
+                    masks--;
+                } catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<p>以上即为同步代码块方式，其语法形式为<code>synchronized(锁){...业务代码...}</code>。</p>
+</li>
+</ul>
+<p>分别启动上面两种方式实现的抢口罩程序，你会发现程序能正确的运行，不会出现重复抢口罩和负数的情况，因此解决了线程安全问题。</p>
+<figure data-type="image" tabindex="3"><img src="https://fausai.life/post-images/1587305228378.png" alt="" loading="lazy"></figure>
+<p>GitHub地址</p>
+<pre><code>https://github.com/githubgavin/fausai_talk/tree/master/scala/src/main/scala/com/gavin/thread/talk02
+</code></pre>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
+								
+								<a href="https://fausai.life/baPnDcBJM/" rel="tag">Java</a>
+								
+								<a href="https://fausai.life/nVGYxTZCTJ/" rel="tag">多线程</a>
 								
 							</div>
 							<nav class="navigation3 post-navigation3" role="navigation">
 
 								<div class="nav-links3">
 									
+									
+									<div class="wow zoomIn nav-next3"><a href="https://fausai.life/Java-thread01.html/"
+											rel="next"> Java多线程编程入门知识</a></div>
 									
 								</div>
 							</nav>
